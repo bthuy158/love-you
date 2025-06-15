@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lấy vị trí của bạn</title>
+</head>
+<body>
+  <h2>Vui lòng cho phép truy cập vị trí để tiếp tục</h2>
+  <button onclick="getLocation()">Lấy vị trí của tôi</button>
+  <p id="output"></p>
+
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        document.getElementById("output").innerHTML = "Trình duyệt không hỗ trợ định vị.";
+      }
+    }
+
+    function showPosition(position) {
+      let latitude = position.coords.latitude;
+      let longitude = position.coords.longitude;
+      document.getElementById("output").innerHTML =
+        "Vĩ độ: " + latitude + "<br>Kinh độ: " + longitude +
+        `<br><a href="https://www.google.com/maps?q=${latitude},${longitude}" target="_blank">Xem trên Google Maps</a>`;
+    }
+
+    function showError(error) {
+      switch(error.code) {
+        case error.PERMISSION_DENIED:
+          document.getElementById("output").innerHTML = "Bạn đã từ chối chia sẻ vị trí.";
+          break;
+        case error.POSITION_UNAVAILABLE:
+          document.getElementById("output").innerHTML = "Không thể lấy vị trí.";
+          break;
+        case error.TIMEOUT:
+          document.getElementById("output").innerHTML = "Yêu cầu lấy vị trí hết thời gian.";
+          break;
+        case error.UNKNOWN_ERROR:
+          document.getElementById("output").innerHTML = "Lỗi không xác định.";
+          break;
+      }
+    }
+  </script>
+</body>
+</html>
